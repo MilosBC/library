@@ -105,14 +105,22 @@ input[type="submit"]
     display: none;
 }
 
+dialog {
+    border: none;
+    position: relative;
+    left: 785px;
+    top: 180px;
+}
+
 form {
     background-color: beige;
     width: 350px;
     height: 362px;  
-    position: absolute;
-    left: 790px;
-    top: 200px;
-    padding: 15px;
+    /*position: relative;
+    left: 720px;
+    top: 200px; */
+   
+    padding: 15px; 
     font-family: "Merriweather", serif;
     font-size: 1.5rem;
     z-index: 99999999999; 
