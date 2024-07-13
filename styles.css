@@ -218,7 +218,7 @@ label {
 }
 
 .read-checker {
-    background-color: #076e07;
+   /* background-color: #076e07; */
     color: white;
     text-align: center;
     width: 200px;
