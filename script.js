@@ -17,6 +17,8 @@ const errorMessage = document.querySelector('.error-message');
 
 
 
+
+
 function Book(author, title, numberOfPages, read) {
 this.author = author;
 this.title = title;
@@ -24,9 +26,6 @@ this.numberOfPages = numberOfPages;
 this.read = read;
 
 let readChecker;
-
-
-
 
 
 /*this.checkReadStatus = function() {
@@ -37,36 +36,44 @@ let readChecker;
     }
 } */
 
+
+
 Book.prototype.checkReadStatus = function() {
     
     readChecker = document.querySelectorAll('.read-checker');
+    const readCheckerToArray = Array.from(readChecker);
 
-    for (let i = 0; i < allBooks.length; i++) {
-        if (allBooks[i].read === true) {
-            readChecker[i].style.backgroundColor = '#c70606';
-            readChecker[i].textContent = "Unread";
+    if (allBooks[allBooks.length - 1].read === true) {
+        readCheckerToArray[readCheckerToArray.length - 1].style.backgroundColor = '#c70606';
+            readCheckerToArray[readCheckerToArray.length - 1].textContent = "Unread";
+            
+            
         } else {
-            readChecker[i].style.backgroundColor = '#076e07';
-            readChecker[i].textContent = "Read";
+            readCheckerToArray[readCheckerToArray.length - 1].style.backgroundColor = '#076e07';
+            readCheckerToArray[readCheckerToArray.length - 1].textContent = "Read";
+            
         }
-    }
+
+           // The switch logic
+
+    readCheckerToArray[readCheckerToArray.length - 1].addEventListener('click', ()=> {
+        if (readCheckerToArray[readCheckerToArray.length - 1].textContent === 'Unread') {
+            readCheckerToArray[readCheckerToArray.length - 1].style.backgroundColor = '#076e07';
+            readCheckerToArray[readCheckerToArray.length - 1].textContent = "Read";
+          } else if(readCheckerToArray[readCheckerToArray.length - 1].textContent === 'Read') {
+            readCheckerToArray[readCheckerToArray.length - 1].style.backgroundColor = '#c70606';
+            readCheckerToArray[readCheckerToArray.length - 1].textContent = "Unread";
     
-       /* if (this.read === true) {
-            console.log('checked');
-          
-            readChecker.style.backgroundColor = 'red';
-            readChecker.textContent = "Unread";
-        } else {
-            console.log('not checked');
-            readChecker.style.backgroundColor = 'green';
-            readChecker.textContent = "Read";
-        }     */
-   
+          }
+    })
+    }
+
+
+        } 
+
  
-}
 
 
-}
 
 newBook.addEventListener('click', () => {
 dialog.showModal();
@@ -95,6 +102,8 @@ submitButton.addEventListener('click', (e) => {
     addBook();
    
     book.checkReadStatus();
+    
+    
     dialog.close();
     resetForm();
     console.log(allBooks);
@@ -144,4 +153,6 @@ function addBook() {
 
 
 }
+
+
 
