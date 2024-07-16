@@ -1,4 +1,4 @@
-const allBooks = [];
+let allBooks = [];
 
 
 const newBook = document.querySelector('.new-book');
@@ -26,17 +26,6 @@ this.numberOfPages = numberOfPages;
 this.read = read;
 
 let readChecker;
-
-
-/*this.checkReadStatus = function() {
-    if (this.read === true) {
-        console.log('checked');
-    } else {
-        console.log('not checked');
-    }
-} */
-
-
 
 Book.prototype.checkReadStatus = function() {
     
@@ -71,10 +60,6 @@ Book.prototype.checkReadStatus = function() {
 
         } 
 
- 
-
-
-
 newBook.addEventListener('click', () => {
 dialog.showModal();
 })
@@ -100,14 +85,9 @@ submitButton.addEventListener('click', (e) => {
     allBooks.push(book);
     console.log('all books: ', allBooks);
     addBook();
-   
     book.checkReadStatus();
-    
-    
     dialog.close();
     resetForm();
-    console.log(allBooks);
-    console.log( typeof numberOfPages.value);
 } else {
     errorMessage.textContent = 'Please fill in the data properly!';
 }
@@ -153,6 +133,18 @@ function addBook() {
 
 
 }
+
+emptyLibrary.addEventListener('click', ()=> {
+    const allLibraryBooks = document.querySelectorAll('.library-book');
+    Array.from(allLibraryBooks).forEach(libraryBook => {
+    container.removeChild(libraryBook);
+
+    })
+
+    allBooks = [];
+
+    console.log('knjige: ', allBooks);
+})
 
 
 
