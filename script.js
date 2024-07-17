@@ -75,24 +75,53 @@ function resetForm() {
     title.value = '';
     numberOfPages.value = '';
     readStatus.checked = false;
+    if (errorMessage.textContent !== 'The book already exists!') {
     errorMessage.textContent = '';
+    }
 }
 
 submitButton.addEventListener('click', (e) => {
     e.preventDefault();
     let book = new Book(author.value, title.value, numberOfPages.value, readStatus.checked);
-    if (author.value !== '' && title.value !== '' && numberOfPages.value !== '' && !numberOfPages.value.includes('-') && !numberOfPages.value.includes('.') && !numberOfPages.value.includes('e') && !numberOfPages.value.includes('E')) {
-    allBooks.push(book);
-    console.log('all books: ', allBooks);
-    addBook();
-    book.checkReadStatus();
-    dialog.close();
-    resetForm();
-} else {
-    errorMessage.textContent = 'Please fill in the data properly!';
-}
-    
-})
+    const containsTitle = allBooks.some((singleBook)=>singleBook.title === title.value);
+    const containsAuthor = allBooks.some((singleBook)=>singleBook.author=== author.value);
+
+    if (containsTitle && containsAuthor) {
+        errorMessage.textContent = 'The book already exists!';
+        resetForm();
+    } else {
+
+        if (author.value !== '' && title.value !== '' && numberOfPages.value !== '' && !numberOfPages.value.includes('-') && !numberOfPages.value.includes('.') && !numberOfPages.value.includes('e') && !numberOfPages.value.includes('E')) {
+
+        if (errorMessage.textContent === 'The book already exists!') {
+        errorMessage.textContent = '';
+        }
+   
+        allBooks.push(book);
+        console.log('all books: ', allBooks);
+        addBook();
+        book.checkReadStatus();
+        dialog.close();
+        resetForm(); 
+
+    } else {
+        errorMessage.textContent = 'Please fill in the data properly!';
+
+    }
+        }
+
+
+
+
+    }
+
+
+
+
+
+
+        
+    )
 
 function addBook() {
    
@@ -143,7 +172,7 @@ emptyLibrary.addEventListener('click', ()=> {
 
     allBooks = [];
 
-    console.log('knjige: ', allBooks);
+ 
 })
 
 
