@@ -83,8 +83,8 @@ function resetForm() {
 submitButton.addEventListener('click', (e) => {
     e.preventDefault();
     let book = new Book(author.value, title.value, numberOfPages.value, readStatus.checked);
-    const containsTitle = allBooks.some((singleBook)=>singleBook.title === title.value);
-    const containsAuthor = allBooks.some((singleBook)=>singleBook.author=== author.value);
+    const containsTitle = allBooks.some((singleBook)=>singleBook.title.toLowerCase() === title.value.toLowerCase());
+    const containsAuthor = allBooks.some((singleBook)=>singleBook.author.toLowerCase()=== author.value.toLowerCase());
 
     if (containsTitle && containsAuthor) {
         errorMessage.textContent = 'The book already exists!';
