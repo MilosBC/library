@@ -120,8 +120,11 @@ input[type="submit"]
 dialog {
     border: none;
     position: relative;
-    left: 785px;
-    top: 180px;
+    /*left: 785px;
+    top: 180px; */
+
+    top: 22%;
+    left: 41%;
 }
 
 form {

@@ -14,6 +14,19 @@ const submitButton = document.querySelector('.add-book');
 const cancelButton = document.querySelector('.cancel');
 const errorMessage = document.querySelector('.error-message');
 
+let allLibraryBooks; 
+
+function setDataPositions(deleteButtons) {
+
+    if (deleteButtons === null) {
+        deleteButtons = Array.from(document.querySelectorAll('.delete-book'));
+    }
+
+deleteButtons.forEach((button, index) => {
+    button.setAttribute('data-position', index);
+})
+}
+
 
 
 
@@ -57,8 +70,75 @@ Book.prototype.checkReadStatus = function() {
     })
     }
 
+    Book.prototype.deleteIndividualBook = function() {
+
+        
+       
+        allLibraryBooks = document.querySelectorAll('.library-book');
+        const allLibraryBooksToArray = Array.from(allLibraryBooks);
+
+        let deleteButtons = Array.from(document.querySelectorAll('.delete-book'));
+     
+
+        //set data positions
+
+        setDataPositions(deleteButtons);
+
+        deleteButtons[deleteButtons.length - 1].addEventListener('click', (e)=> {
+
+                let numberIndex = e.target.getAttribute('data-position');
+
+                console.log(numberIndex);
+
+                console.log('opravljeni dugmici: ', deleteButtons);
+
+                
+            
+            allBooks.splice(numberIndex,1);
+            
+
+            const bookToBeRemoved = e.target.parentElement;
+            bookToBeRemoved.remove();
+
+            deleteButtons = null;
+
+           setDataPositions(deleteButtons);
+          
+
+           
+
+            
+            })
+
+
+
+          console.log('sve knjizice: ', allBooks);
+            console.log('kontejnercic: ', container);
+
+ 
+
+   
+
+   
+
+     
+        
+
+
+
+        
+        
+
+
+
+
+
+    }
+
 
         } 
+
+
 
 newBook.addEventListener('click', () => {
 dialog.showModal();
@@ -80,6 +160,10 @@ function resetForm() {
     }
 }
 
+
+
+
+
 submitButton.addEventListener('click', (e) => {
     e.preventDefault();
     let book = new Book(author.value, title.value, numberOfPages.value, readStatus.checked);
@@ -98,11 +182,20 @@ submitButton.addEventListener('click', (e) => {
         }
    
         allBooks.push(book);
+
+        //Add id
+
+        for (let i = 0; i < allBooks.length; i++) {
+        allBooks[i].id = i;
+        }
         console.log('all books: ', allBooks);
         addBook();
         book.checkReadStatus();
+        book.deleteIndividualBook();
+        
         dialog.close();
         resetForm(); 
+        console.log('container:', container);
 
     } else {
         errorMessage.textContent = 'Please fill in the data properly!';
@@ -110,16 +203,7 @@ submitButton.addEventListener('click', (e) => {
     }
         }
 
-
-
-
     }
-
-
-
-
-
-
         
     )
 
@@ -131,6 +215,7 @@ function addBook() {
     const deleteButton = document.createElement('button');
     deleteButton.classList.add('delete-book');
     deleteButton.textContent = 'X';
+    //deleteButton.setAttribute(`data-position`, `${allBooks.length - 1}` );
     libraryBook.appendChild(deleteButton);
 
     const titleHeading = document.createElement('div');
@@ -164,7 +249,7 @@ function addBook() {
 }
 
 emptyLibrary.addEventListener('click', ()=> {
-    const allLibraryBooks = document.querySelectorAll('.library-book');
+    allLibraryBooks = document.querySelectorAll('.library-book');
     Array.from(allLibraryBooks).forEach(libraryBook => {
     container.removeChild(libraryBook);
 
@@ -174,6 +259,8 @@ emptyLibrary.addEventListener('click', ()=> {
 
  
 })
+
+            
 
 
 
