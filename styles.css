@@ -111,7 +111,7 @@ input[type="submit"]
     transform: rotate(360deg);
 }
 
-/* Form and book templates*/
+
 
 .hidden {
     display: none;
@@ -120,9 +120,6 @@ input[type="submit"]
 dialog {
     border: none;
     position: relative;
-    /*left: 785px;
-    top: 180px; */
-
     top: 22%;
     left: 41%;
 }
@@ -130,11 +127,6 @@ dialog {
 form {
     background-color: beige;
     width: 350px;
-   /* height: 362px; */ 
-    /*position: relative;
-    left: 720px;
-    top: 200px; */
-   
     padding: 15px; 
     font-family: "Merriweather", serif;
     font-size: 1.5rem;
@@ -182,7 +174,6 @@ label {
 
 .library-book {
     background-color: var(--library-book-color);
-    
     width: 300px; 
     height: 300px;
   
@@ -208,7 +199,6 @@ label {
     height: 42px;
     font-size: 1.5rem;
     padding-top: 5px;
-   
     margin-bottom: 30px;
 
 }

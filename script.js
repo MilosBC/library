@@ -27,10 +27,15 @@ deleteButtons.forEach((button, index) => {
 })
 }
 
-
-
-
-
+function resetForm() {
+    author.value = '';
+    title.value = '';
+    numberOfPages.value = '';
+    readStatus.checked = false;
+    if (errorMessage.textContent !== 'The book already exists!') {
+    errorMessage.textContent = '';
+    }
+}
 
 function Book(author, title, numberOfPages, read) {
 this.author = author;
@@ -42,103 +47,52 @@ let readChecker;
 
 Book.prototype.checkReadStatus = function() {
     
-    readChecker = document.querySelectorAll('.read-checker');
-    const readCheckerToArray = Array.from(readChecker);
+    readChecker = Array.from(document.querySelectorAll('.read-checker'));
 
     if (allBooks[allBooks.length - 1].read === true) {
-        readCheckerToArray[readCheckerToArray.length - 1].style.backgroundColor = '#c70606';
-            readCheckerToArray[readCheckerToArray.length - 1].textContent = "Unread";
-            
-            
+        readChecker[readChecker.length - 1].style.backgroundColor = '#c70606';
+        readChecker[readChecker.length - 1].textContent = "Unread";      
         } else {
-            readCheckerToArray[readCheckerToArray.length - 1].style.backgroundColor = '#076e07';
-            readCheckerToArray[readCheckerToArray.length - 1].textContent = "Read";
-            
+            readChecker[readChecker.length - 1].style.backgroundColor = '#076e07';
+            readChecker[readChecker.length - 1].textContent = "Read";   
         }
 
            // The switch logic
 
-    readCheckerToArray[readCheckerToArray.length - 1].addEventListener('click', ()=> {
-        if (readCheckerToArray[readCheckerToArray.length - 1].textContent === 'Unread') {
-            readCheckerToArray[readCheckerToArray.length - 1].style.backgroundColor = '#076e07';
-            readCheckerToArray[readCheckerToArray.length - 1].textContent = "Read";
-          } else if(readCheckerToArray[readCheckerToArray.length - 1].textContent === 'Read') {
-            readCheckerToArray[readCheckerToArray.length - 1].style.backgroundColor = '#c70606';
-            readCheckerToArray[readCheckerToArray.length - 1].textContent = "Unread";
+           readChecker[readChecker.length - 1].addEventListener('click', ()=> {
+        if (readChecker[readChecker.length - 1].textContent === 'Unread') {
+            readChecker[readChecker.length - 1].style.backgroundColor = '#076e07';
+            readChecker[readChecker.length - 1].textContent = "Read";
+          } else if(readChecker[readChecker.length - 1].textContent === 'Read') {
+            readChecker[readChecker.length - 1].style.backgroundColor = '#c70606';
+            readChecker[readChecker.length - 1].textContent = "Unread";
     
           }
     })
     }
 
     Book.prototype.deleteIndividualBook = function() {
-
-        
        
         allLibraryBooks = document.querySelectorAll('.library-book');
-        const allLibraryBooksToArray = Array.from(allLibraryBooks);
-
         let deleteButtons = Array.from(document.querySelectorAll('.delete-book'));
      
-
-        //set data positions
-
         setDataPositions(deleteButtons);
 
         deleteButtons[deleteButtons.length - 1].addEventListener('click', (e)=> {
 
-                let numberIndex = e.target.getAttribute('data-position');
+                let numberIndex = e.target.getAttribute('data-position');    
+                allBooks.splice(numberIndex,1);
+                const bookToBeRemoved = e.target.parentElement;
+                bookToBeRemoved.remove();
+                deleteButtons = null;
 
-                console.log(numberIndex);
-
-                console.log('opravljeni dugmici: ', deleteButtons);
-
-                
-            
-            allBooks.splice(numberIndex,1);
-            
-
-            const bookToBeRemoved = e.target.parentElement;
-            bookToBeRemoved.remove();
-
-            deleteButtons = null;
-
-           setDataPositions(deleteButtons);
-          
-
-           
-
+                setDataPositions(deleteButtons);
             
             })
-
-
-
-          console.log('sve knjizice: ', allBooks);
-            console.log('kontejnercic: ', container);
-
- 
-
-   
-
-   
-
-     
-        
-
-
-
-        
-        
-
-
-
-
-
     }
 
 
         } 
-
-
 
 newBook.addEventListener('click', () => {
 dialog.showModal();
@@ -150,22 +104,43 @@ cancelButton.addEventListener('click', () => {
     resetForm();
 })
 
-function resetForm() {
-    author.value = '';
-    title.value = '';
-    numberOfPages.value = '';
-    readStatus.checked = false;
-    if (errorMessage.textContent !== 'The book already exists!') {
-    errorMessage.textContent = '';
-    }
+function addBook() {
+   
+    const libraryBook = document.createElement('div');
+    libraryBook.classList.add('library-book');
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-book');
+    deleteButton.textContent = 'X';
+    libraryBook.appendChild(deleteButton);
+    const titleHeading = document.createElement('div');
+    titleHeading.classList.add('title-heading');
+    titleHeading.textContent = allBooks[allBooks.length - 1].title;
+    libraryBook.appendChild(titleHeading);
+    const authorParagraph = document.createElement('p');
+    authorParagraph.textContent = 'By: ';
+    const authorName = document.createElement('span');
+    authorName.classList.add('author-name');
+    authorName.textContent = allBooks[allBooks.length - 1].author;
+    authorParagraph.appendChild(authorName);
+    libraryBook.appendChild(authorParagraph);
+    const pagesParagraph = document.createElement('p');
+    pagesParagraph.textContent = 'Pages: ';
+    const pageNumber = document.createElement('span');
+    pageNumber.classList.add('page-number');
+    pageNumber.textContent = allBooks[allBooks.length - 1].numberOfPages;
+    pagesParagraph.appendChild(pageNumber);
+    libraryBook.appendChild(pagesParagraph);
+    const readDiv = document.createElement('div');
+    readDiv.classList.add('read-checker');
+    libraryBook.appendChild(readDiv);
+    container.appendChild(libraryBook);
+
+
 }
 
 
-
-
-
 submitButton.addEventListener('click', (e) => {
-    e.preventDefault();
+   
     let book = new Book(author.value, title.value, numberOfPages.value, readStatus.checked);
     const containsTitle = allBooks.some((singleBook)=>singleBook.title.toLowerCase() === title.value.toLowerCase());
     const containsAuthor = allBooks.some((singleBook)=>singleBook.author.toLowerCase()=== author.value.toLowerCase());
@@ -182,21 +157,11 @@ submitButton.addEventListener('click', (e) => {
         }
    
         allBooks.push(book);
-
-        //Add id
-
-        for (let i = 0; i < allBooks.length; i++) {
-        allBooks[i].id = i;
-        }
-        console.log('all books: ', allBooks);
         addBook();
         book.checkReadStatus();
         book.deleteIndividualBook();
-        
         dialog.close();
         resetForm(); 
-        console.log('container:', container);
-
     } else {
         errorMessage.textContent = 'Please fill in the data properly!';
 
@@ -207,46 +172,7 @@ submitButton.addEventListener('click', (e) => {
         
     )
 
-function addBook() {
-   
-    const libraryBook = document.createElement('div');
-    libraryBook.classList.add('library-book');
 
-    const deleteButton = document.createElement('button');
-    deleteButton.classList.add('delete-book');
-    deleteButton.textContent = 'X';
-    //deleteButton.setAttribute(`data-position`, `${allBooks.length - 1}` );
-    libraryBook.appendChild(deleteButton);
-
-    const titleHeading = document.createElement('div');
-    titleHeading.classList.add('title-heading');
-    titleHeading.textContent = allBooks[allBooks.length - 1].title;
-    libraryBook.appendChild(titleHeading);
-
-    const authorParagraph = document.createElement('p');
-    authorParagraph.textContent = 'By: ';
-    const authorName = document.createElement('span');
-    authorName.classList.add('author-name');
-    authorName.textContent = allBooks[allBooks.length - 1].author;
-    authorParagraph.appendChild(authorName);
-    libraryBook.appendChild(authorParagraph);
-
-    const pagesParagraph = document.createElement('p');
-    pagesParagraph.textContent = 'Pages: ';
-    const pageNumber = document.createElement('span');
-    pageNumber.classList.add('page-number');
-    pageNumber.textContent = allBooks[allBooks.length - 1].numberOfPages;
-    pagesParagraph.appendChild(pageNumber);
-    libraryBook.appendChild(pagesParagraph);
-
-    const readDiv = document.createElement('div');
-    readDiv.classList.add('read-checker');
-    libraryBook.appendChild(readDiv);
-
-    container.appendChild(libraryBook);
-
-
-}
 
 emptyLibrary.addEventListener('click', ()=> {
     allLibraryBooks = document.querySelectorAll('.library-book');
@@ -256,8 +182,6 @@ emptyLibrary.addEventListener('click', ()=> {
     })
 
     allBooks = [];
-
- 
 })
 
             
