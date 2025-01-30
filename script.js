@@ -37,42 +37,44 @@ function resetForm() {
     }
 }
 
-function Book(author, title, numberOfPages, read) {
-this.author = author;
-this.title = title;
-this.numberOfPages = numberOfPages;
-this.read = read;
 
-let readChecker;
+ class Book {
+    constructor (author, title, numberOfPages, read) {
+    this.author = author;
+    this.title = title;
+    this.numberOfPages = numberOfPages;
+    this.read = read;
+            }
 
-Book.prototype.checkReadStatus = function() {
-    
-    readChecker = Array.from(document.querySelectorAll('.read-checker'));
+   readChecker;
+
+    checkReadStatus() {
+     this.readChecker = Array.from(document.querySelectorAll('.read-checker'));
+     
 
     if (allBooks[allBooks.length - 1].read === true) {
-        readChecker[readChecker.length - 1].style.backgroundColor = '#c70606';
-        readChecker[readChecker.length - 1].textContent = "Unread";      
+       this.readChecker[this.readChecker.length - 1].style.backgroundColor = '#c70606';
+       this.readChecker[this.readChecker.length - 1].textContent = "Unread";      
         } else {
-            readChecker[readChecker.length - 1].style.backgroundColor = '#076e07';
-            readChecker[readChecker.length - 1].textContent = "Read";   
+           this.readChecker[this.readChecker.length - 1].style.backgroundColor = '#076e07';
+           this.readChecker[this.readChecker.length - 1].textContent = "Read";   
         }
 
            // The switch logic
 
-           readChecker[readChecker.length - 1].addEventListener('click', ()=> {
-        if (readChecker[readChecker.length - 1].textContent === 'Unread') {
-            readChecker[readChecker.length - 1].style.backgroundColor = '#076e07';
-            readChecker[readChecker.length - 1].textContent = "Read";
-          } else if(readChecker[readChecker.length - 1].textContent === 'Read') {
-            readChecker[readChecker.length - 1].style.backgroundColor = '#c70606';
-            readChecker[readChecker.length - 1].textContent = "Unread";
+           this.readChecker[this.readChecker.length - 1].addEventListener('click', ()=> {
+        if (this.readChecker[this.readChecker.length - 1].textContent === 'Unread') {
+            this.readChecker[this.readChecker.length - 1].style.backgroundColor = '#076e07';
+            this.readChecker[this.readChecker.length - 1].textContent = "Read";
+          } else if(this.readChecker[this.readChecker.length - 1].textContent === 'Read') {
+            this.readChecker[this.readChecker.length - 1].style.backgroundColor = '#c70606';
+            this.readChecker[this.readChecker.length - 1].textContent = "Unread";
     
           }
-    })
+    })   
     }
 
-    Book.prototype.deleteIndividualBook = function() {
-       
+    deleteIndividualBook() {
         allLibraryBooks = document.querySelectorAll('.library-book');
         let deleteButtons = Array.from(document.querySelectorAll('.delete-book'));
      
@@ -90,9 +92,7 @@ Book.prototype.checkReadStatus = function() {
             
             })
     }
-
-
-        } 
+        }
 
 newBook.addEventListener('click', () => {
 dialog.showModal();
